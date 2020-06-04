@@ -9,7 +9,7 @@
 #include "afore/string/string.h"
 
 #ifdef __GLIBCXX__
-    #define AFORE_NAME_EXCESS 52
+    #define AFORE_NAME_EXCESS 20
     #define AFORE_ENUM_NAME_EXCESS 107
 #elif defined(__clang__)
     #define AFORE_NAME_EXCESS 28

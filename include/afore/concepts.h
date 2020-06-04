@@ -34,11 +34,13 @@ namespace afore
     namespace detail
     {
         template <HasResultType T>
-        struct ResultType<T> :
-            AFORE_NEXT(result_t<T>);
+        struct ResultType<T>{
+            afore_type result = typename T::result;
+        };
         template <HasResultValue T>
-        struct ResultType<T> :
-            AFORE_NEXT(Value<result_v<T>>);
+        struct ResultType<T>{
+            using result = Value<T::result>;
+        };
 
         namespace impl
         {

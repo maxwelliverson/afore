@@ -117,8 +117,8 @@ int main()
     using namespace afore_module::string;
     using namespace afore_module::utils;
 
-    constexpr auto tup1 = Tuple(0, "Hello", 23.4, "Afore string test"_A);
-    constexpr auto tup2 = Tuple(u'f', -0.0, nullptr);
+    constexpr auto tup1 = Tuple(0, "Hello", 23.4, string("Afore string test"));
+    constexpr auto tup2 = Tuple('f', -0.0, nullptr);
     constexpr auto tup3 = tuple_cat(tup1, tup2);
 
     std::cout << tup1 << std::endl;

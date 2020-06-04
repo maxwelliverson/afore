@@ -19,6 +19,7 @@
 #define AFORE_ENABLE_IF_MSG(bool_val, msg) typename enable_fence = result_t<afore::detail::EnablerImpl<\
         []()constexpr{static_assert(bool_val, msg); return bool_val;}(), void>>
 #define afore_var inline constexpr static decltype(auto)
+#define afore_local_var constexpr decltype(auto)
 #define afore_type using
 #define afore_mem_func inline constexpr decltype(auto)
 

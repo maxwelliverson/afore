@@ -15,7 +15,7 @@ namespace afore
         constexpr static int size = N;
         const std::array<C, N> str;
 
-        constexpr string(const C* c) : string(c, make_sequence<N-1>()){}
+        constexpr string(const C* c) : string(c, std::make_index_sequence<N-1>()){}
         constexpr string(std::array<C, N>&& arr) : str(std::move(arr)){}
 
         constexpr const C* c_str() const noexcept
@@ -33,11 +33,11 @@ namespace afore
         template <auto M = N>
         constexpr explicit operator std::array<C, M>() const noexcept
         {
-            constexpr auto helper = []<auto ...index>(const std::array<C, N>& str_arr, [[maybe_unused]] ValueList<index...>&&)
+            constexpr auto helper = []<auto ...index>(const std::array<C, N>& str_arr, [[maybe_unused]] std::index_sequence<index...>)
                                     {
                                         return std::array<C, M>{str_arr[index]...};
                                     };
-            const std::array<C, M> result = helper(str, make_sequence<N>());
+            const std::array<C, M> result = helper(str, std::make_index_sequence<N>());
             return result;
         }
 
@@ -49,7 +49,7 @@ namespace afore
 
     private:
         template <Index ...index>
-        constexpr string(const C* s, IndexList<index...>&&) : str{s[index]...}{}
+        constexpr string(const C* s, std::index_sequence<index...>) : str{s[index]...}{}
     };
 
     template <typename C, auto N>

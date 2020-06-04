@@ -3,8 +3,12 @@ project(Afore)
 
 set(CMAKE_CXX_STANDARD 20)
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
+    message(STATUS "HEYOOOO")
+    include_directories("C:/Users/maxwe/Documents/git/vcpkg/installed/x64-windows/include")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fconcepts -fpermissive")
-else()
+elseif(CMAKE_CXX_COMPILER_ID MATCHES Clang)
+    include_directories("C:/Users/maxwe/Documents/git/vcpkg/installed/x64-windows/include")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++20 -fpermissive")
 endif()
 include_directories(include)
 

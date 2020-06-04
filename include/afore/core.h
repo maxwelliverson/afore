@@ -22,7 +22,12 @@ namespace afore
         struct TypeValue;
 
         template<decltype(auto) Obj>
-        struct Value{};
+        struct Value{
+            template <decltype(auto) OtherObj>
+            afore_mem_func operator<=>(const Value<OtherObj>&) const noexcept{
+                return Obj <=> OtherObj;
+            }
+        };
 
         //Core ResultType that acts as the final return type for all metafunctions.
         template<typename R>

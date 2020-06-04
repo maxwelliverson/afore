@@ -34,7 +34,7 @@ namespace afore::detail::assertions
     //Test 3
     assert_is_valid_call(test_func_3, );
     assert_is_valid_call(test_func_3, int);
-    assert_is_valid_call(test_func_3, double, char&&, __cfloat128);
+    assert_is_valid_call(test_func_3, double, char&&, __float128);
 
     //Test 4
     assert_is_valid_call(test_func_4, const char*, int, decltype(std::array{1, 3, 4}));

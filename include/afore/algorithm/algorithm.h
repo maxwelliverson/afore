@@ -163,11 +163,16 @@ namespace afore
         template <auto Obj, auto size, typename Result>
         struct FilledList;
 
+        template <>
+        struct FilledList<true, 0, ValueList<>>{
+            using result = ValueList<>;
+        };
+
         template <auto Obj, auto ...rest>
-        struct FilledList<Obj, 0ul, ValueList<rest...>> :
+        struct FilledList<Obj, 0, ValueList<rest...>> :
             AFORE_RESULT_T(ValueList<rest...>);
 
-        template <auto Obj, auto size, auto ...rest>
+        template <auto Obj, auto size, auto ...rest> requires (size > 0)
         struct FilledList<Obj, size, ValueList<rest...>> :
             AFORE_NEXT(FilledList<Obj, size - 1, ValueList<rest..., Obj>>);
 

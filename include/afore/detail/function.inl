@@ -269,7 +269,7 @@ namespace afore::detail
             AFORE_NEXT(SpliceArgs<ArgsList<tail...>, ArgsList<args...>, ArgsList<results..., head>>);
 
 
-        constexpr auto add_func = [](auto a, auto b){return a + b;};
+        afore_local_var add_func = [](auto a, auto b){return a + b;};
         template <ValueListType bools>
         afore_var count_true = Index{unary_fold_left<add_func, 0, bools>};
 
@@ -358,13 +358,13 @@ namespace afore::detail
         template <typename placeholders, auto size>
         afore_var equals_placeholder(const Index i)
         {
-            constexpr auto bool_arrays = to_array_with_default<placeholders, size, true>;
+            afore_local_var bool_arrays = to_array_with_default<placeholders, size, true>;
             return bool_arrays[static_cast<std::size_t>(i)];
         };
         template <typename placeholders, auto size>
         afore_var not_equals_placeholder(const Index i)
         {
-            constexpr auto bool_arrays = to_array_with_default<placeholders, size, true>;
+            afore_local_var bool_arrays = to_array_with_default<placeholders, size, true>;
             return !bool_arrays[static_cast<std::size_t>(i)];
         };
     }
@@ -392,7 +392,7 @@ namespace afore::detail
     template <typename ...BoundArgs>
     afore_var combine_args(std::tuple<BoundArgs...> a, std::tuple<>&& b)
     {
-        constexpr auto size = sizeof...(BoundArgs);
+        afore_local_var size = sizeof...(BoundArgs);
         afore_type bound_args = ArgsList<BoundArgs...>;
         afore_type spliced_args = splice_args<ArgsList<BoundArgs...>, ArgsList<>>;
         afore_type placeholders = find_type<bound_args, placeholder_t>;
@@ -404,17 +404,17 @@ namespace afore::detail
     template <typename ...BoundArgs, typename HeadArg, typename ...Args>
     afore_var combine_args(std::tuple<BoundArgs...> a, std::tuple<HeadArg, Args...>&& b)
     {
-        using bound_args = ArgsList<BoundArgs...>;
-        using spliced_args = splice_args<ArgsList<BoundArgs...>, ArgsList<HeadArg, Args...>>;
-        using next_tup = to_tuple_t<spliced_args>;
+        afore_type bound_args = ArgsList<BoundArgs...>;
+        afore_type spliced_args = splice_args<ArgsList<BoundArgs...>, ArgsList<HeadArg, Args...>>;
+        afore_type next_tup = to_tuple_t<spliced_args>;
 
         static_assert(!is_same<next_tup, std::tuple<BoundArgs...>>);
 
-        constexpr auto bound_size = sizeof...(BoundArgs);
-        constexpr auto unbound_size = sizeof...(Args) + 1;
+        afore_local_var bound_size = sizeof...(BoundArgs);
+        afore_local_var unbound_size = sizeof...(Args) + 1;
 
         afore_type placeholders = find_type<bound_args, placeholder_t>;
-        constexpr auto size = std::max(bound_size, std::max(unbound_size, spliced_args::size));
+        afore_local_var size = std::max(bound_size, std::max(unbound_size, spliced_args::size));
         afore_type bound_indices = reduce<&impl::equals_placeholder<placeholders, size>, make_sequence<size>>;
         afore_type unbound_indices = reduce<&impl::not_equals_placeholder<placeholders, size>, make_sequence<size>>;
         afore_type bound_types = gather<TypeList<BoundArgs...>, bound_indices>;
